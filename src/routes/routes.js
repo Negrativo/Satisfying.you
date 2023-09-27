@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../pages/login/Login';
 import Cadastro from '../pages/cadastro/Cadastro';
 import RecuperarSenha from '../pages/recuperarSenha/RecuperarSenha';
+import Home from '../pages/home/home';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,17 @@ export default function Routes() {
       <Stack.Screen
         name="RecuperarSenha"
         component={RecuperarSenha}
+        options={{
+          headerStyle: {
+            height: 70,
+            backgroundColor: "#2B1D62"
+          }
+        }}
+      />
+
+      <Stack.Screen
+        name="Home"
+        component={Home}
         options={{
           headerStyle: {
             height: 70,

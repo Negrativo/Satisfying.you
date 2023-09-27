@@ -23,7 +23,9 @@ export default function Login({ navigation }) {
         onSubmit={(values, { setErrors }) => {
           let email = values.email;
           let senha = values.senha;
-          handleLogin(email, senha);
+          if (!!email && !!senha) {
+            navigation.navigate('Home');
+          }
         }}
       >
         {(props) => (

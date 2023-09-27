@@ -19,7 +19,7 @@ export default styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    color: 'white'
+    color: '#3F92C5'
   },
 
   form: {

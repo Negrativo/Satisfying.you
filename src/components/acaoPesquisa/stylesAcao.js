@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
 
@@ -6,13 +6,13 @@ export default styles = StyleSheet.create({
     width: 150,
     height: 170,
     shadowColor: 'black',
+    backgroundColor: '#312464',
     alignItems: 'center',
-    backgroundColor: 'white',
-    padding: 10
+    padding: 7
   },
 
   containerView: {
-    margin: 10,
+    marginHorizontal: 10
   },
 
   containerImagem: {

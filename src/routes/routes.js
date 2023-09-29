@@ -4,7 +4,8 @@ import Login from '../pages/login/Login';
 import Cadastro from '../pages/cadastro/Cadastro';
 import RecuperarSenha from '../pages/recuperarSenha/RecuperarSenha';
 import Home from '../pages/home/home';
-
+import NovaPesquisa from '../pages/novaPesquisa/NovaPesquisa';
+import AcoesPesquisa from '../pages/acoesPesquisa/AcoesPesquisa';
 const Stack = createStackNavigator();
 
 export default function Routes() {
@@ -42,6 +43,28 @@ export default function Routes() {
       <Stack.Screen
         name="Home"
         component={Home}
+        options={{
+          headerStyle: {
+            height: 70,
+            backgroundColor: "#2B1D62"
+          }
+        }}
+      />
+
+      <Stack.Screen
+        name="NovaPesquisa"
+        component={NovaPesquisa}
+        options={{
+          headerStyle: {
+            height: 70,
+            backgroundColor: "#2B1D62"
+          }
+        }}
+      />
+
+      <Stack.Screen
+        name="AcaoPesquisa"
+        component={AcoesPesquisa}
         options={{
           headerStyle: {
             height: 70,

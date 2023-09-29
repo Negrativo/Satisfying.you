@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Image, Text, TextInput, FlatList, SafeAreaView } from 'react-native';
 
 import iconPesquisa from '../../../assets/pesquisar.png';
+import styles from './StylesHome';
 
 import { pesquisas } from '../../../data/pesquisas';
-import styles from './StylesHome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { PesquisaComponent } from '../../components/pesquisas/PesquisasComponent'
+import PesquisasComponent from '../../components/pesquisas/PesquisasComponent'
 
 export default function ({ route, navigation }) {
 
@@ -14,7 +14,7 @@ export default function ({ route, navigation }) {
     navigation.navigate('NovaPesquisa');
   }
 
-  function acessaServicos(pesquisa) {
+  function AcaoPesquisa(pesquisa) {
     navigation.navigate('AcaoPesquisa', { pesquisa });
   }
 
@@ -34,14 +34,14 @@ export default function ({ route, navigation }) {
       <SafeAreaView style={styles.formNavegacaoPrincipal}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          numColumns={2}
+          horizontal={true}
           data={pesquisas}
-          keyExtractor={dadosLista => dadosLista._id}
+          keyExtractor={pesquisa => pesquisa._id}
           renderItem={({ item }) => (
-            <PesquisaComponent
-              onPress={() => acessaPesquisa(item)}
+            <PesquisasComponent
+              onPress={() => AcaoPesquisa(item)}
               nome={item.nome}
-              foto={item.imagem}
+              imagem={item.imagem}
               dataCriacao={item.data}
             />
           )}

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 
-import styles from './stylesPesquisas';
+import styles from './stylesAcao';
 
-export default function PesquisasComponent(props) {
+export default function AcaoComponent(props) {
 
   useEffect(() => {
     let mounted = true;
@@ -16,7 +16,7 @@ export default function PesquisasComponent(props) {
         <View style={styles.containerView}>
           <TouchableOpacity onPress={props.onPress} style={styles.container}>
             <View style={styles.containerImagem}>
-              {!!props.imagem && <Image source={{ uri: props.imagem }} style={styles.fotoCategoria} />}
+              {!!props.imagem && <Image source={props.imagem} style={styles.fotoCategoria} />}
             </View>
             <View style={styles.containerTexto}>
               <Text style={styles.Texto}>{props.nome}</Text>

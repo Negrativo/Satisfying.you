@@ -58,6 +58,7 @@ export default styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: "center",
     marginTop: 10,
   },
   formNavegacaoFavoritos: {

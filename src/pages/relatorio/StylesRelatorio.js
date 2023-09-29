@@ -4,14 +4,16 @@ export default styles = StyleSheet.create({
 
 
   container: {
-    flexDirection: 'row',
-  },
-
-  acao: {
     backgroundColor: '#372775',
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: "center",
+    justifyContent: 'center'
+  },
+
+  text: {
+    fontSize: 20
   }
+
 
 });

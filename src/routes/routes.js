@@ -6,6 +6,10 @@ import RecuperarSenha from '../pages/recuperarSenha/RecuperarSenha';
 import Home from '../pages/home/home';
 import NovaPesquisa from '../pages/novaPesquisa/NovaPesquisa';
 import AcoesPesquisa from '../pages/acoesPesquisa/AcoesPesquisa';
+import ColetarDados from '../pages/coleta/Coleta';
+import AgradecimentoColeta from '../pages/agradecimentoColeta/AgradecimentoColeta'
+import Relatorio from '../pages/relatorio/Relatorio';
+
 const Stack = createStackNavigator();
 
 export default function Routes() {
@@ -65,6 +69,39 @@ export default function Routes() {
       <Stack.Screen
         name="AcaoPesquisa"
         component={AcoesPesquisa}
+        options={{
+          headerStyle: {
+            height: 70,
+            backgroundColor: "#2B1D62"
+          }
+        }}
+      />
+
+      <Stack.Screen
+        name="ColetarDados"
+        component={ColetarDados}
+        options={{
+          headerStyle: {
+            height: 70,
+            backgroundColor: "#2B1D62"
+          }
+        }}
+      />
+
+      <Stack.Screen
+        name="AgradecimentoColeta"
+        component={AgradecimentoColeta}
+        options={{
+          headerStyle: {
+            height: 70,
+            backgroundColor: "#2B1D62"
+          }
+        }}
+      />
+
+      <Stack.Screen
+        name="Relatorio"
+        component={Relatorio}
         options={{
           headerStyle: {
             height: 70,

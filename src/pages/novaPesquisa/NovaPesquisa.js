@@ -20,7 +20,7 @@ export default function ({ navigation, route }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [image, setImage] = useState(null);
-  const [nome, setNome] = useState("")
+  const [nome, setNome] = useState("");
 
   // const firebaseConfig = {
   //   apiKey: "AIzaSyCUkhpKtz-NuWwSP1awNY9Acqr1Vs5f6W8",

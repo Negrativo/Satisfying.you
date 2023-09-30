@@ -4,13 +4,34 @@ export const pesquisas = [
   {
     "_id": "1",
     "nome": "UTFPR",
-    "imagem": "",
+    "imagem": imgExample.uri,
     "data": "01/01/2023",
     "dados": [
       {
         "notas": [
           {
-            "nota": ""
+            "nota": "5"
+          },
+          {
+            "nota": "5"
+          },
+          {
+            "nota": "2"
+          },
+          {
+            "nota": "4"
+          },
+          {
+            "nota": "4"
+          }
+          , {
+            "nota": "3"
+          }
+          , {
+            "nota": "1"
+          }
+          , {
+            "nota": "5"
           }
         ]
       }

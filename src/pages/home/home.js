@@ -23,6 +23,8 @@ export default function ({ route, navigation }) {
   // firebase.initializeApp(config);
   // const database = firebase.database();
 
+  console.log(pesquisas)
+
   function novaPesquisa() {
     navigation.navigate('NovaPesquisa');
   }

@@ -8,9 +8,6 @@ export default function ({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.text}>Obrigado por participar da pesquisa!</Text>
       <Text style={styles.text}>Aguardamos você no próximo ano!</Text>
-      <TouchableOpacity>
-        <Text style={styles.text}>Aguardamos você no próximo ano!</Text>
-      </TouchableOpacity>
     </View>
   );
 }

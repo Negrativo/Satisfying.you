@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, TouchableOpacity, Image, TextInput } from 'react-native';
 import { Formik } from 'formik';
+import uuid from 'react-native-uuid';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import iconPesquisa from '../../../assets/calendar.png';
@@ -75,7 +76,7 @@ export default function ({ navigation, route }) {
   }
 
   useEffect(() => {
-    initPesquisa();
+    initPesquisa(); 
   }, []);
 
   return (
@@ -94,9 +95,11 @@ export default function ({ navigation, route }) {
             pesquisas[indexToUpdate].nome = nomeForm;
             pesquisas[indexToUpdate].imagem = imagem;
             pesquisas[indexToUpdate].data = data;
+
           } else {
+            const id = uuid;
             const pesquisaForm = {
-              "_id": toString(Math.random()),
+              "_id": id.v4,
               "nome": nomeForm,
               "imagem": imagem,
               "data": data

@@ -1,12 +1,17 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import Routes from './src/routes/routes';
+import StackRoutes from './src/routes/routes';
+import DrawerRoutes from './src/routes/drawer';
+
+
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Routes />
+      <StackRoutes />
     </NavigationContainer>
   )
 

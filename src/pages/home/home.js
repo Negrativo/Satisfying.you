@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, Text, TextInput, FlatList, SafeAreaView } from 'react-native';
-
+import { v4 as uuidv4 } from 'uuid';
 import iconPesquisa from '../../../assets/pesquisar.png';
 import styles from './StylesHome';
 

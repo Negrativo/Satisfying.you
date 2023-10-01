@@ -18,7 +18,7 @@ export default function ({ route }) {
     if (pesquisa != undefined) {
       setNome(pesquisa.nome);
 
-      const notas = pesquisa.dados[0].notas;
+      const notas = pesquisa.notas;
 
       if (notas && notas.length > 0) {
         setTotal(notas.length);

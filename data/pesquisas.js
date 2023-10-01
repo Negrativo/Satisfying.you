@@ -6,34 +6,30 @@ export const pesquisas = [
     "nome": "UTFPR",
     "imagem": imgExample.uri,
     "data": "01/01/2023",
-    "dados": [
+    "notas": [
       {
-        "notas": [
-          {
-            "nota": "5"
-          },
-          {
-            "nota": "5"
-          },
-          {
-            "nota": "2"
-          },
-          {
-            "nota": "4"
-          },
-          {
-            "nota": "4"
-          }
-          , {
-            "nota": "3"
-          }
-          , {
-            "nota": "1"
-          }
-          , {
-            "nota": "5"
-          }
-        ]
+        "nota": "5"
+      },
+      {
+        "nota": "5"
+      },
+      {
+        "nota": "2"
+      },
+      {
+        "nota": "4"
+      },
+      {
+        "nota": "4"
+      }
+      , {
+        "nota": "3"
+      }
+      , {
+        "nota": "1"
+      }
+      , {
+        "nota": "5"
       }
     ]
   }

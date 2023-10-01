@@ -5,7 +5,8 @@ export default styles = StyleSheet.create({
     backgroundColor: '#372775',
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 20
   },
   containerPesquisa: {
     backgroundColor: '#FFFFFF',

@@ -26,32 +26,32 @@ export default function ({ navigation, route }) {
     navigation.navigate('Relatorio', { pesquisa });
   }
   return (
-    <View style={styles.acao}>
-      <ScrollView horizontal={true} style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView style={styles.scroll}>
 
-      <AcaoComponent
-        onPress={() => modificar()}
-        nome={nomeModificar}
-        imagem={iconModificar}
-      />
+        <View style={styles.acao}>
+          <AcaoComponent
+            onPress={() => modificar()}
+            nome={nomeModificar}
+            imagem={iconModificar}
+          />
+        </View>
 
-
-
-
+        <View style={styles.acao}>
         <AcaoComponent
-        onPress={() => coletarDados()}
-        nome={nomeColeta}
-        imagem={iconColetarDados}
-      />
+            onPress={() => coletarDados()}
+            nome={nomeColeta}
+            imagem={iconColetarDados}
+          />
+        </View>
 
-
-
-
+        <View style={styles.acao}>
         <AcaoComponent
-        onPress={() => relatorio()}
-        nome={nomeRelatorio}
-        imagem={iconRelatorio}
-      />
+            onPress={() => relatorio()}
+            nome={nomeRelatorio}
+            imagem={iconRelatorio}
+          />
+        </View>
 
 
     </ScrollView>

@@ -6,6 +6,8 @@ import styles from './StylesAcoesPesquisa';
 import iconModificar from '../../../assets/edit.png';
 import iconColetarDados from '../../../assets/confirmation.png';
 import iconRelatorio from '../../../assets/report.png';
+import iconDelete from '../../../assets/delete.png';
+
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
 
@@ -19,6 +21,7 @@ export default function ({ navigation, route }) {
   const nomeModificar = "Modificar"
   const nomeColeta = "Coletar Dados"
   const nomeRelatorio = "Relatório"
+  const nomeExcluir = "Excluir"
 
 
   const showModal = () => {
@@ -60,7 +63,7 @@ export default function ({ navigation, route }) {
         </View>
       </Modal>
 
-      <ScrollView style={styles.scroll}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
 
         <View style={styles.acao}>
           <AcaoComponent
@@ -89,8 +92,8 @@ export default function ({ navigation, route }) {
         <View style={styles.acao}>
           <AcaoComponent
             onPress={() => showModal()}
-            nome="Excluir"
-            imagem={iconRelatorio}
+            nome={nomeExcluir}
+            imagem={iconDelete}
           />
         </View>
 

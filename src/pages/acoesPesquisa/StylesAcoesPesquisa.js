@@ -4,7 +4,7 @@ export default styles = StyleSheet.create({
 
 
   scroll: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     padding: 50
   },
 

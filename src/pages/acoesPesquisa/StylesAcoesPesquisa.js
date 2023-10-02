@@ -17,6 +17,24 @@ export default styles = StyleSheet.create({
 
   acao: {
     margin: 10
+  },
+
+  textModal: {
+    color: 'white'
+  },
+
+  buttonModal: {
+    margin: 10
+  },
+
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+
+  groupModal: {
+    flexDirection: 'row',
   }
 
 });

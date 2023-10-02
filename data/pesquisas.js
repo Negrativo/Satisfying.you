@@ -1,4 +1,4 @@
-import imgExample from './../assets/icon.png';
+import imgExample from './../assets/calendar.png';
 
 export const pesquisas = [
   {

@@ -20,7 +20,6 @@ export default function ({ navigation }) {
           let nome = values.nome;
           let email = values.email;
           let senha = values.senha;
-          navigation.navigate('Login')
           // api.post('/login', {
           //   email, senha
           // })

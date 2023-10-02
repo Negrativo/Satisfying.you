@@ -18,8 +18,7 @@ export default function DrawerRoutes() {
           backgroundColor: '#2B1D62',
           width: 240,
         },
-      }}
-      initialRouteName="Home">
+      }}>
       <Drawer.Screen
         name="Home"
         component={Home}

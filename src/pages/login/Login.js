@@ -25,7 +25,7 @@ export default function Login({ navigation }) {
           let email = values.email;
           let senha = values.senha;
           if (!!email && !!senha) {
-            navigation.navigate('Home');
+            // navigation.navigate('Home');
           }
         }}
       >

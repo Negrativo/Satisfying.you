@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, Button, TouchableOpacity, Image, TextInput } from 'react-native';
 import { Formik } from 'formik';
 import uuid from 'react-native-uuid';
@@ -7,6 +7,8 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import iconPesquisa from '../../../assets/calendar.png';
 // Importe a função 'format' do pacote 'date-fns' para formatar a data selecionada.
 import { format } from 'date-fns';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set, get, push, child, off } from 'firebase/database';
 
 // Remova as importações não utilizadas.
 
@@ -16,25 +18,26 @@ import styles from './StylesNovaPesquisa';
 import { pesquisas } from '../../../data/pesquisas';
 
 export default function ({ navigation, route }) {
-  const pesquisa = route.params?.pesquisa;
+  const idPesquisa = route.params?.idPesquisa;
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [image, setImage] = useState(null);
   const [nome, setNome] = useState("");
 
-  // const firebaseConfig = {
-  //   apiKey: "AIzaSyCUkhpKtz-NuWwSP1awNY9Acqr1Vs5f6W8",
-  //   authDomain: "satisfyng-743f8.firebaseapp.com",
-  //   databaseURL: "https://satisfyng-743f8-default-rtdb.firebaseio.com",
-  //   projectId: "satisfyng-743f8",
-  //   storageBucket: "satisfyng-743f8.appspot.com",
-  //   messagingSenderId: "263888927863",
-  //   appId: "1:263888927863:web:62eaec58cf9b6c55c11a72",
-  //   measurementId: "G-SBMTHJS0CG"
-  // };
-  // firebase.initializeApp(config);
-  // const database = firebase.database();
+  const firebaseConfig = {
+    apiKey: "AIzaSyCUkhpKtz-NuWwSP1awNY9Acqr1Vs5f6W8",
+    authDomain: "satisfyng-743f8.firebaseapp.com",
+    databaseURL: "https://satisfyng-743f8-default-rtdb.firebaseio.com",
+    projectId: "satisfyng-743f8",
+    storageBucket: "satisfyng-743f8.appspot.com",
+    messagingSenderId: "263888927863",
+    appId: "1:263888927863:web:62eaec58cf9b6c55c11a72",
+    measurementId: "G-SBMTHJS0CG"
+  };
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const pesquisasRef = ref(database, 'pesquisas');
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -65,13 +68,31 @@ export default function ({ navigation, route }) {
   };
 
 
-  function initPesquisa() {
-    if (pesquisa != undefined) {
-      const [dia, mes, ano] = pesquisa?.data.split('/').map(Number);
-      const dataInicial = new Date(ano, mes - 1, dia);
-      setSelectedDate(dataInicial);
-      setImage(pesquisa.imagem);
-      setNome(pesquisa.nome);
+  async function initPesquisa() {
+    if (idPesquisa != undefined) {
+
+
+      const pesquisasRef = ref(database, 'pesquisas');
+
+      // Encontrar a pesquisa com o _id fornecido
+      const pesquisaQuery = await get(pesquisasRef);
+      const pesquisasSnapshot = pesquisaQuery.val();
+
+      if (pesquisasSnapshot) {
+        const pesquisasList = Object.values(pesquisasSnapshot);
+        const pesquisaEncontrada = pesquisasList.find(pesquisa => pesquisa._id === idPesquisa);
+
+        if (pesquisaEncontrada) {
+          const [dia, mes, ano] = pesquisaEncontrada.data.split('/').map(Number);
+          const dataInicial = new Date(ano, mes - 1, dia);
+          setSelectedDate(dataInicial);
+          setImage(pesquisaEncontrada.imagem);
+          setNome(pesquisaEncontrada.nome);
+        } else {
+          console.log('Nenhuma pesquisa encontrada com o ID fornecido.');
+        }
+      }
+
     }
   }
 
@@ -79,39 +100,64 @@ export default function ({ navigation, route }) {
     initPesquisa(); 
   }, []);
 
+  const onSubmit = useCallback(async (values, { setErrors }) => {
+    try {
+      let nomeForm = values.nomeFormik ? values.nomeFormik : nome;
+      let data = selectedDate.toLocaleDateString();
+      let imagem = values.imagem ? values.imagem : image;
+
+      const novaPesquisa = {
+        "nome": nomeForm,
+        "imagem": imagem,
+        "data": data,
+        "notas": []
+      };
+      const snapshot = await get(pesquisasRef);
+      let pesquisasExistentes = snapshot.val();
+
+      if (!pesquisasExistentes) {
+        pesquisasExistentes = [];
+      } else if (!Array.isArray(pesquisasExistentes)) {
+        pesquisasExistentes = Object.values(pesquisasExistentes);
+      }
+
+      // Verifica se a pesquisa já existe pelo _id
+      const pesquisaExistente = pesquisasExistentes.find(pesquisa => pesquisa._id === idPesquisa);
+
+      if (pesquisaExistente) {
+        // Atualiza os dados da pesquisa existente
+        const pesquisaIndex = pesquisasExistentes.findIndex(pesquisa => pesquisa._id === idPesquisa);
+        pesquisasExistentes[pesquisaIndex] = {
+          ...pesquisasExistentes[pesquisaIndex],
+          ...novaPesquisa
+        };
+      } else {
+        // Caso não exista, adiciona a nova pesquisa
+        novaPesquisa["_id"] = uuid.v4();
+        pesquisasExistentes.push(novaPesquisa);
+      }
+
+      // Salva as pesquisas atualizadas no banco
+      await set(pesquisasRef, pesquisasExistentes);
+
+      navigation.navigate('Home');
+    } catch (error) {
+      console.error("Erro ao salvar pesquisa:", error);
+    }
+  }, [pesquisasRef, selectedDate, image, nome, navigation]);
+
+  useEffect(() => {
+    return () => {
+      // Desinscreva o listener quando o componente for desmontado
+      off(pesquisasRef);
+    };
+  }, [pesquisasRef]);
+
   return (
     <View style={styles.container}>
       <Formik
         initialValues={{ nomeFormik: nome, data: selectedDate.toLocaleDateString(), imagem: image, error: '' }}
-        onSubmit={(values, { setErrors }) => {
-          let nomeForm = values.nomeFormik ? values.nomeFormik : nome;
-          let data = selectedDate.toLocaleDateString();
-          let imagem = values.imagem ? values.imagem : image;
-
-          const indexToUpdate = pesquisas.findIndex(pesquisa => pesquisa.nome === nome)
-
-          if (indexToUpdate !== -1) {
-            console.log(indexToUpdate, pesquisas[indexToUpdate])
-            pesquisas[indexToUpdate].nome = nomeForm;
-            pesquisas[indexToUpdate].imagem = imagem;
-            pesquisas[indexToUpdate].data = data;
-
-          } else {
-            const id = uuid;
-            const pesquisaForm = {
-              "_id": id.v4,
-              "nome": nomeForm,
-              "imagem": imagem,
-              "data": data
-            };
-
-            pesquisas.push(pesquisaForm)
-
-            console.log(pesquisas)
-          }
-
-          navigation.navigate('Home');
-        }}
+        onSubmit={onSubmit}
       >
         {(props) => (
           <View style={styles.formCadastro}>

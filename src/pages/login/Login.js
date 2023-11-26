@@ -19,13 +19,13 @@ export default function Login({ navigation }) {
     <View style={styles.container}>
       <Formik
         initialValues={{ email: '', senha: '', error: '' }}
-        // validationSchema={ValidateLogin}
+        validationSchema={ValidateLogin}
         onSubmit={(values, { setErrors }) => {
-          navigation.navigate('Home');
+          // navigation.navigate('Home');
           let email = values.email;
           let senha = values.senha;
           if (!!email && !!senha) {
-            // navigation.navigate('Home');
+            navigation.navigate('Home');
           }
         }}
       >

@@ -12,7 +12,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
 
 export default function ({ navigation, route }) {
-  const pesquisa = route.params.pesquisa;
+  const idPesquisa = route.params.idPesquisa;
 
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -34,15 +34,15 @@ export default function ({ navigation, route }) {
 
 
   function modificar() {
-    navigation.navigate('NovaPesquisa', { pesquisa });
+    navigation.navigate('NovaPesquisa', { idPesquisa });
   }
 
   function coletarDados() {
-    navigation.navigate('ColetarDados', { pesquisa });
+    navigation.navigate('ColetarDados', { idPesquisa });
   }
 
   function relatorio() {
-    navigation.navigate('Relatorio', { pesquisa });
+    navigation.navigate('Relatorio', { idPesquisa });
   }
 
   function excluirPesquisa() {

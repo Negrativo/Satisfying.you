@@ -2,38 +2,71 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import styles from './StylesColeta';
 import Svg, { Path } from 'react-native-svg';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, update, push, get, child, off } from 'firebase/database';
 
-import { pesquisas } from '../../../data/pesquisas';
 export default function ({ navigation, route }) {
-  const pesquisa = route.params.pesquisa;
+  const idPesquisa = route.params.idPesquisa;
 
   const [nome, setNome] = useState("")
 
-  function initPesquisa() {
-    if (pesquisa != undefined) {
-      setNome(pesquisa.nome);
-    }
-  }
+  const firebaseConfig = {
+    apiKey: "AIzaSyCUkhpKtz-NuWwSP1awNY9Acqr1Vs5f6W8",
+    authDomain: "satisfyng-743f8.firebaseapp.com",
+    databaseURL: "https://satisfyng-743f8-default-rtdb.firebaseio.com",
+    projectId: "satisfyng-743f8",
+    storageBucket: "satisfyng-743f8.appspot.com",
+    messagingSenderId: "263888927863",
+    appId: "1:263888927863:web:62eaec58cf9b6c55c11a72",
+    measurementId: "G-SBMTHJS0CG"
+  };
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const pesquisasRef = ref(database, 'pesquisas');
 
-  useEffect(() => {
-    initPesquisa();
-  }, []);
+  const setAvaliacaoPesquisa = async (valor = 0) => {
+    try {
+      const pesquisasRef = ref(database, 'pesquisas');
 
-  const setAvaliacaoPesquisa = (valor = 0) => {
-    const indexToUpdate = pesquisas.findIndex(pesquisa => pesquisa.nome === nome)
-    console.log(valor)
-    if (indexToUpdate !== -1) {
-      if (!pesquisas[indexToUpdate].notas) {
-        pesquisas[indexToUpdate].notas = []; // Inicializa 'notas' como um array se estiver indefinido
+      // Encontrar a pesquisa com o _id fornecido
+      const pesquisaQuery = await get(pesquisasRef);
+      const pesquisasSnapshot = pesquisaQuery.val();
+
+      if (pesquisasSnapshot) {
+        const pesquisasList = Object.values(pesquisasSnapshot);
+        const pesquisaIndex = pesquisasList.findIndex(pesquisa => pesquisa._id === idPesquisa);
+
+        if (pesquisaIndex !== -1) {
+          const pesquisaEncontrada = pesquisasList[pesquisaIndex];
+
+          if (!pesquisaEncontrada.notas) {
+            pesquisaEncontrada.notas = [];
+          }
+
+          // Adiciona a nova nota à lista
+          pesquisaEncontrada.notas.push({
+            nota: valor
+          });
+
+          // Cria um objeto apenas com a propriedade 'notas' para atualizar
+          const notasToUpdate = {
+            notas: pesquisaEncontrada.notas
+          };
+
+          // Atualiza o objeto de pesquisa no banco de dados
+          await update(child(pesquisasRef, `${pesquisaIndex}`), notasToUpdate);
+
+          console.log('Nota adicionada com sucesso!');
+        } else {
+          console.log('Nenhuma pesquisa encontrada com o ID fornecido.');
+        }
       }
-      const nota = {
-        "nota": valor
-      }
-      pesquisas[indexToUpdate].notas.push(nota);
-      console.log(pesquisas[indexToUpdate].notas)
+
       navigation.navigate('AgradecimentoColeta');
+    } catch (error) {
+      console.error('Erro ao adicionar nota à pesquisa:', error);
     }
-  }
+  };
 
   return (
     <View style={styles.container}>

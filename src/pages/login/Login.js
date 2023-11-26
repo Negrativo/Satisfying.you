@@ -2,10 +2,25 @@ import React, { useState, useContext } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { Formik } from 'formik';
 import styles from './StylesLogin';
+import { initializeApp } from 'firebase/app';
+import auth from '@react-native-firebase/auth';
+import { getDatabase, ref, update, get, child } from 'firebase/database';
 
 import ValidateLogin from '../../schema/LoginSchema';
 
 export default function Login({ navigation }) {
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCUkhpKtz-NuWwSP1awNY9Acqr1Vs5f6W8",
+    authDomain: "satisfyng-743f8.firebaseapp.com",
+    databaseURL: "https://satisfyng-743f8-default-rtdb.firebaseio.com",
+    projectId: "satisfyng-743f8",
+    storageBucket: "satisfyng-743f8.appspot.com",
+    messagingSenderId: "263888927863",
+    appId: "1:263888927863:web:62eaec58cf9b6c55c11a72",
+    measurementId: "G-SBMTHJS0CG"
+  };
+  const app = initializeApp(firebaseConfig);
 
   async function handleSubmitCadastro() {
     navigation.navigate('Cadastro');
@@ -20,12 +35,16 @@ export default function Login({ navigation }) {
       <Formik
         initialValues={{ email: '', senha: '', error: '' }}
         validationSchema={ValidateLogin}
-        onSubmit={(values, { setErrors }) => {
+        onSubmit={async (values, { setErrors }) => {
           // navigation.navigate('Home');
           let email = values.email;
           let senha = values.senha;
-          if (!!email && !!senha) {
+          try {
+            await auth().signInWithEmailAndPassword(email, password);
             navigation.navigate('Home');
+            console.log('Usuário logado com sucesso!');
+          } catch (error) {
+            console.error('Erro ao fazer login:', error);
           }
         }}
       >

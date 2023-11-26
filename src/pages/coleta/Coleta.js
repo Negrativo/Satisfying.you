@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import styles from './StylesColeta';
 import Svg, { Path } from 'react-native-svg';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, update, push, get, child, off } from 'firebase/database';
+import { getDatabase, ref, update, get, child } from 'firebase/database';
 
 export default function ({ navigation, route }) {
   const idPesquisa = route.params.idPesquisa;
 
   const [nome, setNome] = useState("")
-
   const firebaseConfig = {
     apiKey: "AIzaSyCUkhpKtz-NuWwSP1awNY9Acqr1Vs5f6W8",
     authDomain: "satisfyng-743f8.firebaseapp.com",
@@ -22,7 +21,6 @@ export default function ({ navigation, route }) {
   };
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
-  const pesquisasRef = ref(database, 'pesquisas');
 
   const setAvaliacaoPesquisa = async (valor = 0) => {
     try {

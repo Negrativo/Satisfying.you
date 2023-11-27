@@ -19,7 +19,7 @@ export default styles = StyleSheet.create({
     height: 45,
     justifyContent: 'center',
     alignItems: 'center',
-    color: 'white',
+    color: '#3F92C5',
   },
 
   form: {
@@ -74,6 +74,10 @@ export default styles = StyleSheet.create({
 
   errors: {
     color: '#FD7979'
+  },
+
+  errors: {
+    color: 'white'
   },
 
   errorCadastro: {

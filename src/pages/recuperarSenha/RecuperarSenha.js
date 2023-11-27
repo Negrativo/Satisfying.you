@@ -1,23 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { Formik } from 'formik';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../api/FirebaseConfig';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
 //import api from '../../../services/api';
+const app = initializeApp(firebaseConfig);
 
 import validateRecuparSenha from '../../schema/RecuperarSenhaSchema';
 
 import styles from './StylesRecuperarSenha';
 
 export default function ({ navigation }) {
+  const auth = getAuth();
   const [Dados, setDados] = useState('');
+  const [mensagem, setMessagem] = useState('');
 
   return (
     <View style={styles.container}>
       <Formik
         initialValues={{ email: '', error: '' }}
         validationSchema={validateRecuparSenha}
-        onSubmit={(values, { setErrors }) => {
+        onSubmit={async (values, { setErrors }) => {
           let email = values.email;
+
+          try {
+            await sendPasswordResetEmail(auth, email);
+            // navigation.navigate('Login');
+            console.info('Enviado email de recuperacao');
+            setMessagem('E-mail de recuperação enviado!')
+          } catch (error) {
+            setMessagem('Houve um problema com o e-mail!')
+            console.error('Erro ao fazer cadastro:', error);
+          }
           // api.post('/recuperar-senha', {
           //   email
           // })
@@ -48,6 +64,7 @@ export default function ({ navigation }) {
                 onChangeText={text => props.setFieldValue('email', text)}
               />
               {props.dirty && props.errors.email && <Text style={styles.errors}>{props.errors.email}</Text>}
+              {mensagem.length > 0 && <Text style={styles.errors}>{mensagem}</Text>}
             </View>
 
             {props.errors.error && <Text style={styles.errorCadastro}>{props.errors.error}</Text>}

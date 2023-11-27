@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { Formik } from 'formik';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../api/FirebaseConfig';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 //import api from '../../../services/api';
+const app = initializeApp(firebaseConfig);
 
 import ValidateCadastro from '../../schema/CadastroSchema';
 
 import styles from './StylesCadastroInicial';
 
 export default function ({ navigation }) {
+  const auth = getAuth();
   const [Dados, setDados] = useState('');
 
   return (
@@ -16,10 +21,16 @@ export default function ({ navigation }) {
       <Formik
         initialValues={{ email: '', senha: '', senha2: '', error: '' }}
         validationSchema={ValidateCadastro}
-        onSubmit={(values, { setErrors }) => {
+        onSubmit={async (values, { setErrors }) => {
           let nome = values.nome;
           let email = values.email;
           let senha = values.senha;
+          try {
+            await createUserWithEmailAndPassword(auth, email, senha);
+            navigation.navigate('Login');
+          } catch (error) {
+            console.error('Erro ao fazer cadastro:', error);
+          }
           // api.post('/login', {
           //   email, senha
           // })

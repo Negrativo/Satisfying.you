@@ -7,6 +7,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import iconPesquisa from '../../../assets/calendar.png';
 // Importe a função 'format' do pacote 'date-fns' para formatar a data selecionada.
 import { format } from 'date-fns';
+import { Alert } from 'react-native';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, get, push, child, off } from 'firebase/database';
 
@@ -59,12 +60,44 @@ export default function ({ navigation, route }) {
       quality: 1,
     };
 
-    // const [status, requestPermission] = ImagePicker.useCameraPermissions();
-    let result = await ImagePicker.launchImageLibraryAsync(options);
+    // Adicione uma opção para escolher entre galeria e câmera
+    const choice = await showImagePickerChoiceDialog();
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
+    if (choice === 'gallery') {
+      let result = await ImagePicker.launchImageLibraryAsync(options);
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+      }
+    } else if (choice === 'camera') {
+      let result = await ImagePicker.launchCameraAsync(options);
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+      }
     }
+  };
+
+  const showImagePickerChoiceDialog = async () => {
+    return new Promise((resolve) => {
+      // Implemente um diálogo/modal para permitir ao usuário escolher entre galeria e câmera
+      // Isso pode ser feito usando bibliotecas de diálogo/modal ou componentes personalizados
+
+      // Exemplo de implementação básica usando o método `Alert` do React Native
+      Alert.alert(
+        'Escolha uma opção',
+        'Selecione a origem da imagem:',
+        [
+          {
+            text: 'Galeria',
+            onPress: () => resolve('gallery'),
+          },
+          {
+            text: 'Câmera',
+            onPress: () => resolve('camera'),
+          },
+        ],
+        { cancelable: true }
+      );
+    });
   };
 
 
